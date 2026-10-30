@@ -1,98 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:sosial_media/screens/splash_screen.dart';
+import 'package:sosial_media/screens/login_screen.dart';
+import 'package:sosial_media/screens/daftar_akun_screen.dart';
+import 'package:sosial_media/screens/daftar_berhasil_screen.dart';
+import 'package:sosial_media/screens/chat_list_screen.dart';
+import 'package:sosial_media/screens/chat_room_screen.dart';
+import 'package:sosial_media/screens/incoming_call_audio_screen.dart';
+import 'package:sosial_media/screens/call_room_audio_screen.dart';
+import 'package:sosial_media/screens/incoming_call_video_screen.dart';
+import 'package:sosial_media/screens/call_room_video_screen.dart';
 
 void main() {
-  runApp(const FigmaToCodeApp());
+  runApp(const QcumberApp());
 }
 
-class FigmaToCodeApp extends StatelessWidget {
-  const FigmaToCodeApp({super.key});
+class QcumberApp extends StatelessWidget {
+  const QcumberApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Qcumber - Media Sosial',
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
-    );
-  }
-}
-
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF7D9E69), // Hijau bagian atas
-              Color(0xFFB5CDC3), // Mint lembut bagian tengah
-              Color(0xFFF7FAF8), // Putih bersih bagian bawah
-            ],
-            stops: [0.0, 0.65, 1.0],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              const Spacer(flex: 2),
-
-              // 1. Gambar Logo Monogram "QC"
-              Image.asset(
-                'assets/images/logo.png',
-                width: 220,
-                height: 220,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) {
-                  // Fallback jika file logo belum ditaruh
-                  return const Icon(
-                    Icons.spa,
-                    size: 120,
-                    color: Color(0xFF165540),
-                  );
-                },
-              ),
-
-              const SizedBox(height: 16),
-
-              // 2. Tulisan "Qcumber"
-              const Text(
-                'Qcumber',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF165540),
-                  fontSize: 38,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -0.5,
-                ),
-              ),
-
-              const Spacer(flex: 3),
-
-              // 3. Slogan di bagian bawah "A fresh slice of life"
-              const Padding(
-                padding: EdgeInsets.only(bottom: 24.0),
-                child: Text(
-                  'A fresh slice of life',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFF1E4D3E),
-                    fontSize: 20,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ],
-          ),
+      theme: ThemeData(
+        useMaterial3: true,
+        fontFamily: 'sans-serif',
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF1B4D3E),
+          primary: const Color(0xFF1B4D3E),
+          secondary: const Color(0xFF2B7853),
         ),
       ),
+      // Langsung menampilkan Layar Chat List ("Komunikasi dan Pesan")
+      initialRoute: '/chat_list',
+      routes: {
+        '/splash': (context) => const SplashScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/daftar': (context) => const DaftarAkunScreen(),
+        '/daftar_berhasil': (context) => const DaftarBerhasilScreen(),
+        '/chat_list': (context) => const ChatListScreen(),
+        '/chat_room': (context) => const ChatRoomScreen(),
+        '/incoming_call_audio': (context) => const IncomingCallAudioScreen(),
+        '/call_room_audio': (context) => const CallRoomAudioScreen(),
+        '/incoming_call_video': (context) => const IncomingCallVideoScreen(),
+        '/call_room_video': (context) => const CallRoomVideoScreen(),
+      },
     );
   }
 }

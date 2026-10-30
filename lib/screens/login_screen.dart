@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sosial_media/screens/daftar_akun_screen.dart';
+import 'package:sosial_media/screens/chat_list_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,9 +24,19 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Login Berhasil'),
-        duration: Duration(seconds: 1),
+        content: Text('Login Berhasil! Membuka Pesan...'),
+        duration: Duration(milliseconds: 800),
         backgroundColor: Color(0xFF165540),
+      ),
+    );
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const ChatListScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+        transitionDuration: const Duration(milliseconds: 300),
       ),
     );
   }
