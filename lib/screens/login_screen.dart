@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sosial_media/screens/daftar_akun_screen.dart';
-import 'package:sosial_media/screens/chat_list_screen.dart';
+import 'package:sosial_media/main_scaffold.dart';
+import 'package:sosial_media/lupa_sandi/lupa_sandi.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleLogin() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Login Berhasil! Membuka Pesan...'),
+        content: Text('Login Berhasil! Membuka Beranda...'),
         duration: Duration(milliseconds: 800),
         backgroundColor: Color(0xFF165540),
       ),
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
-            const ChatListScreen(),
+            const MainScaffold(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
         },
@@ -217,10 +218,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.centerLeft,
                     child: TextButton(
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Fitur Lupa Password'),
-                            duration: Duration(seconds: 1),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LupaPasswordPage(),
                           ),
                         );
                       },
