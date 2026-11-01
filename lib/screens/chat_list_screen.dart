@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sosial_media/screens/chat_room_screen.dart';
-import 'package:sosial_media/widgets/phone_frame.dart';
 
 /// Model data untuk item percakapan di Chat List
 class ChatItemData {
@@ -22,7 +21,12 @@ class ChatItemData {
 }
 
 class ChatListScreen extends StatefulWidget {
-  const ChatListScreen({super.key});
+  final bool showBottomNav;
+
+  const ChatListScreen({
+    super.key,
+    this.showBottomNav = true,
+  });
 
   @override
   State<ChatListScreen> createState() => _ChatListScreenState();
@@ -131,179 +135,176 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PhoneFrame(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFFE8EFE5), // Sage mint light Qcumber
-                Color(0xFFF1F5EF),
-                Color(0xFFFFFFFF),
-              ],
-              stops: [0.0, 0.35, 1.0],
-            ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0.85, -0.65),
+            radius: 1.35,
+            colors: [
+              Color(0xFFA5C895), // Gradasi hijau pastel lembut khas Figma
+              Color(0xFFFFFFFF), // Memudar ke putih bersih
+            ],
           ),
-          child: SafeArea(
-            bottom: false,
-            child: Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 12),
+        ),
+        child: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 12),
 
-                    // 1. App Bar Header: Judul Aplikasi "Qcumber"
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      child: Text(
-                        'Qcumber',
-                        style: TextStyle(
-                          fontFamily: 'sans-serif',
-                          fontSize: 32,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF1B4D3E), // Dark green khas Qcumber
-                          letterSpacing: -0.5,
-                        ),
+                  // 1. App Bar Header: Judul Aplikasi "Qcumber"
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      'Qcumber',
+                      style: TextStyle(
+                        fontFamily: 'sans-serif',
+                        fontSize: 36,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF165540), // Dark green khas Figma
+                        letterSpacing: -0.5,
                       ),
                     ),
+                  ),
 
-                    const SizedBox(height: 14),
+                  const SizedBox(height: 14),
 
-                    // 2. Search Bar: Input pencarian dengan icon kaca pembesar
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.85),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: const Color(0xFF1B4D3E),
-                            width: 1.4,
-                          ),
+                  // 2. Search Bar: Input pencarian dengan background & icon khas Figma
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE9F1E4), // Background kehijauan lembut Figma
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: const Color(0xFF165540),
+                          width: 1.0,
                         ),
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: TextField(
-                                controller: _searchController,
-                                style: const TextStyle(
+                      ),
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF165540),
+                                fontWeight: FontWeight.w500,
+                              ),
+                              decoration: const InputDecoration(
+                                hintText: 'Search...',
+                                hintStyle: TextStyle(
                                   fontSize: 16,
-                                  color: Color(0xFF1B4D3E),
-                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF7E8E85),
+                                  fontWeight: FontWeight.w400,
                                 ),
-                                decoration: const InputDecoration(
-                                  hintText: 'Search...',
-                                  hintStyle: TextStyle(
-                                    fontSize: 16,
-                                    color: Color(0xFF7E8E85),
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  border: InputBorder.none,
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.zero,
-                                ),
+                                border: InputBorder.none,
+                                isDense: true,
+                                contentPadding: EdgeInsets.zero,
                               ),
                             ),
-                            if (_searchController.text.isNotEmpty)
-                              GestureDetector(
-                                onTap: () {
-                                  _searchController.clear();
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.only(right: 8),
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 20,
-                                    color: Color(0xFF7E8E85),
-                                  ),
-                                ),
-                              ),
-                            const Padding(
-                              padding: EdgeInsets.only(right: 14),
-                              child: Icon(
-                                Icons.search,
-                                size: 24,
-                                color: Color(0xFF1B4D3E),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    // 3. Section Title: "Pesan"
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      child: Text(
-                        'Pesan',
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF1B4D3E),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    // 4. Daftar Percakapan (ListView Chat Items)
-                    Expanded(
-                      child: _filteredChats.isEmpty
-                          ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.search_off,
-                                    size: 48,
-                                    color: const Color(0xFF1B4D3E).withValues(alpha: 0.4),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    'Pesan tidak ditemukan',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: const Color(0xFF1B4D3E).withValues(alpha: 0.6),
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : ListView.separated(
-                              padding: const EdgeInsets.only(
-                                top: 8,
-                                bottom: 110, // Ruang untuk floating navigation bar
-                              ),
-                              itemCount: _filteredChats.length,
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 2),
-                              itemBuilder: (context, index) {
-                                final chat = _filteredChats[index];
-                                return _buildChatItem(chat);
+                          ),
+                          if (_searchController.text.isNotEmpty)
+                            GestureDetector(
+                              onTap: () {
+                                _searchController.clear();
                               },
+                              child: const Padding(
+                                padding: EdgeInsets.only(right: 8),
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20,
+                                  color: Color(0xFF7E8E85),
+                                ),
+                              ),
                             ),
+                          const Padding(
+                            padding: EdgeInsets.only(right: 14),
+                            child: Icon(
+                              Icons.search,
+                              size: 26,
+                              color: Color(0xFF165540),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
 
-                // 5. Floating Bottom Navigation Bar khas Figma
+                  const SizedBox(height: 18),
+
+                  // 3. Section Title: "Pesan"
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      'Pesan',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF165540),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // 4. Daftar Percakapan (ListView Chat Items)
+                  Expanded(
+                    child: _filteredChats.isEmpty
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.search_off,
+                                  size: 48,
+                                  color: const Color(0xFF165540).withValues(alpha: 0.4),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Pesan tidak ditemukan',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: const Color(0xFF165540).withValues(alpha: 0.6),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : ListView.separated(
+                            padding: EdgeInsets.only(
+                              top: 8,
+                              bottom: widget.showBottomNav ? 110 : 90,
+                            ),
+                            itemCount: _filteredChats.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 4),
+                            itemBuilder: (context, index) {
+                              final chat = _filteredChats[index];
+                              return _buildChatItem(chat);
+                            },
+                          ),
+                  ),
+                ],
+              ),
+
+              // 5. Floating Bottom Navigation Bar (Hanya tampil jika showBottomNav = true)
+              if (widget.showBottomNav)
                 Positioned(
                   left: 20,
                   right: 20,
                   bottom: 24,
                   child: _buildFloatingBottomNav(),
                 ),
-              ],
-            ),
+            ],
           ),
         ),
       ),
@@ -316,13 +317,13 @@ class _ChatListScreenState extends State<ChatListScreen> {
       color: Colors.transparent,
       child: InkWell(
         onTap: () => _openChatRoom(chat),
-        splashColor: const Color(0xFF1B4D3E).withValues(alpha: 0.08),
-        highlightColor: const Color(0xFF1B4D3E).withValues(alpha: 0.04),
+        splashColor: const Color(0xFF165540).withValues(alpha: 0.08),
+        highlightColor: const Color(0xFF165540).withValues(alpha: 0.04),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           child: Row(
             children: [
-              // Avatar Bulat Bersih & Badge Status Online/Aktif
+              // Avatar Bulat Bersih & Badge Status Online/Aktif Sesuai Figma
               Stack(
                 children: [
                   Container(
@@ -347,7 +348,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                             color: const Color(0xFFD8E4D5),
                             child: const Icon(
                               Icons.person,
-                              color: Color(0xFF1B4D3E),
+                              color: Color(0xFF165540),
                               size: 32,
                             ),
                           );
@@ -356,18 +357,18 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     ),
                   ),
 
-                  // Indicator Dot (Aktif / Nonaktif)
+                  // Indicator Dot (Aktif: Hijau Tua #165540, Nonaktif: Sage Muda #A2B78D)
                   Positioned(
                     right: 0,
                     bottom: 0,
                     child: Container(
-                      width: 15,
-                      height: 15,
+                      width: 16,
+                      height: 16,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: chat.isAktif
-                            ? const Color(0xFF1E824C) // Solid Green Aktif
-                            : const Color(0xFFA5C4AF), // Soft Green
+                            ? const Color(0xFF165540) // Hijau tua aktif Figma
+                            : const Color(0xFFA2B78D), // Sage muda nonaktif Figma
                         border: Border.all(
                           color: Colors.white,
                           width: 2.2,
@@ -388,9 +389,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     Text(
                       chat.name,
                       style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF1B4D3E),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF165540),
                         letterSpacing: -0.2,
                       ),
                     ),
@@ -401,8 +402,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
                           : chat.lastMessage,
                       style: const TextStyle(
                         fontSize: 14,
-                        color: Color(0xFF6B7E74),
-                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF4A6B5D),
+                        fontWeight: FontWeight.w400,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -415,9 +416,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
               Text(
                 chat.time,
                 style: const TextStyle(
-                  fontSize: 13,
-                  color: Color(0xFF7E8E85),
-                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: Color(0xFF165540),
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             ],

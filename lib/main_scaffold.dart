@@ -60,7 +60,7 @@ class _MainScaffoldState extends State<MainScaffold> {
               ),
 
               // Tab 3: Pesan & Obrolan (Terintegrasi Penuh dengan Fitur Chat & Telepon)
-              const ChatListScreen(),
+              const ChatListScreen(showBottomNav: false),
 
               // Tab 4: Profil Saya (Sesuai Desain Figma My Profile.png)
               const MyProfilePage(showBackButton: false),

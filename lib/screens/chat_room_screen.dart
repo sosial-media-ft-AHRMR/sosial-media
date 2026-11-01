@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sosial_media/screens/incoming_call_audio_screen.dart';
 import 'package:sosial_media/screens/incoming_call_video_screen.dart';
-import 'package:sosial_media/widgets/phone_frame.dart';
 
 /// Model pesan dalam ruang percakapan
 class ChatMessage {
@@ -33,7 +32,6 @@ class ChatRoomScreen extends StatefulWidget {
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  bool _showEmojiPicker = false;
 
   // Daftar pesan percakapan asli sesuai desain Figma
   final List<ChatMessage> _messages = [
@@ -52,18 +50,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       isMe: false,
       time: '01.02',
     ),
-  ];
-
-  // Koleksi emoji populer yang ada di Figma chat_room_emoji_picker
-  final List<String> _emojis = const [
-    '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣',
-    '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰',
-    '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜',
-    '🤪', '🤨', '🧐', '🤓', '😎', '🤩', '🥳', '😏',
-    '😒', '😞', '😔', '😟', '😕', '🙁', '☹️', '😣',
-    '😖', '😫', '😩', '🥺', '😢', '😭', '😤', '😠',
-    '😡', '🤬', '🤯', '😳', '🥵', '🥶', '😱', '😨',
-    '👍', '👎', '👏', '🙌', '🙏', '❤️', '🔥', '✨',
   ];
 
   @override
@@ -86,7 +72,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         ),
       );
       _messageController.clear();
-      _showEmojiPicker = false;
     });
 
     Future.delayed(const Duration(milliseconds: 100), () {
@@ -97,12 +82,6 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           curve: Curves.easeOut,
         );
       }
-    });
-  }
-
-  void _onEmojiSelected(String emoji) {
-    setState(() {
-      _messageController.text += emoji;
     });
   }
 
@@ -140,56 +119,50 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PhoneFrame(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFFDCEAD8), // Gradient khas Figma Chat Room
-                Color(0xFFEFF5ED),
-                Color(0xFFFFFFFF),
-              ],
-              stops: [0.0, 0.38, 1.0],
-            ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0.85, -0.65),
+            radius: 1.35,
+            colors: [
+              Color(0xFFA5C895), // Gradient hijau lembut khas Figma Chat Room
+              Color(0xFFFFFFFF), // Memudar ke putih bersih
+            ],
           ),
-          child: SafeArea(
-            bottom: false,
-            child: Column(
-              children: [
-                // 1. App Bar Chat Room Khas Figma
-                _buildAppBar(),
+        ),
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            children: [
+              // 1. App Bar Chat Room Khas Figma
+              _buildAppBar(),
 
-                // 2. Daftar Pesan Percakapan (Message Bubbles)
-                Expanded(
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-                    itemCount: _messages.length,
-                    itemBuilder: (context, index) {
-                      final msg = _messages[index];
-                      return _buildMessageBubble(msg);
-                    },
-                  ),
+              // 2. Daftar Pesan Percakapan (Message Bubbles)
+              Expanded(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                  itemCount: _messages.length,
+                  itemBuilder: (context, index) {
+                    final msg = _messages[index];
+                    return _buildMessageBubble(msg);
+                  },
                 ),
+              ),
 
-                // 3. Bottom Input Bar Khas Figma
-                _buildInputBar(),
-
-                // 4. Panel Emoji Tray
-                if (_showEmojiPicker) _buildEmojiPicker(),
-              ],
-            ),
+              // 3. Bottom Input Bar Khas Figma (Pill Input + Mic/Gallery/Send)
+              _buildInputBar(),
+            ],
           ),
         ),
       ),
     );
   }
 
-  /// App Bar Atas Chat Room
+  /// App Bar Atas Chat Room Khas Figma
   Widget _buildAppBar() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -199,7 +172,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             icon: const Icon(
               Icons.chevron_left,
               size: 34,
-              color: Color(0xFF1B4D3E),
+              color: Color(0xFF165540),
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -225,7 +198,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                     color: const Color(0xFFD8E4D5),
                     child: const Icon(
                       Icons.person,
-                      color: Color(0xFF1B4D3E),
+                      color: Color(0xFF165540),
                       size: 28,
                     ),
                   );
@@ -242,8 +215,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   widget.contactName,
                   style: const TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF1B4D3E),
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF165540),
                     letterSpacing: -0.2,
                   ),
                 ),
@@ -255,7 +228,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       height: 8,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color(0xFF22C55E),
+                        color: Color(0xFF165540), // Titik online hijau Figma
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -263,8 +236,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                       'Online',
                       style: TextStyle(
                         fontSize: 13,
-                        color: Color(0xFF1B4D3E),
-                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF165540),
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],
@@ -321,12 +294,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         child: Icon(
           icon,
           size: 20,
-          color: const Color(0xFF1B4D3E),
+          color: const Color(0xFF165540),
         ),
       ),
     );
   }
 
+  /// Bubble Pesan Presisi 99% Sesuai Figma
   Widget _buildMessageBubble(ChatMessage msg) {
     return Align(
       alignment: msg.isMe ? Alignment.centerRight : Alignment.centerLeft,
@@ -337,12 +311,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
         decoration: BoxDecoration(
-          color: msg.isMe ? const Color(0xFFA9DC76) : const Color(0xFFD8D8DF),
+          color: msg.isMe
+              ? const Color(0xFFB5DA78) // Outgoing: Hijau lemon / sage terang khas Figma
+              : const Color(0xFFD5DBD8), // Incoming: Abu-abu netral kehijauan khas Figma
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(18),
             topRight: const Radius.circular(18),
-            bottomLeft: Radius.circular(msg.isMe ? 18 : 4),
-            bottomRight: Radius.circular(msg.isMe ? 4 : 18),
+            bottomLeft: Radius.circular(msg.isMe ? 18 : 3), // Kiri lancip untuk incoming
+            bottomRight: Radius.circular(msg.isMe ? 3 : 18), // Kanan lancip untuk outgoing
           ),
           boxShadow: [
             BoxShadow(
@@ -354,10 +330,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         ),
         child: Text(
           msg.text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: msg.isMe ? const Color(0xFF1B4D3E) : const Color(0xFF1E293B),
+            color: Color(0xFF165540), // Teks hijau tua presisi Figma
             height: 1.3,
           ),
         ),
@@ -365,12 +341,15 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     );
   }
 
+  /// Bottom Input Bar Sesuai 99% Figma Chat Room.png & Chat Room-4.png
   Widget _buildInputBar() {
+    final bool hasText = _messageController.text.trim().isNotEmpty;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
       child: Container(
         height: 54,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(30),
@@ -382,46 +361,30 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             ),
           ],
           border: Border.all(
-            color: const Color(0xFF1B4D3E).withValues(alpha: 0.18),
+            color: const Color(0xFFC4D5C0), // Border tipis halus Figma
             width: 1.0,
           ),
         ),
         child: Row(
           children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _showEmojiPicker = !_showEmojiPicker;
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(
-                  _showEmojiPicker
-                      ? Icons.keyboard_outlined
-                      : Icons.sentiment_satisfied_alt_outlined,
-                  size: 24,
-                  color: const Color(0xFF1B4D3E),
-                ),
-              ),
-            ),
+            // Kolom Teks Input (Langsung 'Ketik Pesan..' di sebelah kiri sesuai Figma)
             Expanded(
               child: TextField(
                 controller: _messageController,
                 onSubmitted: (_) => _sendMessage(),
-                onChanged: (val) {
+                onChanged: (_) {
                   setState(() {});
                 },
                 style: const TextStyle(
                   fontSize: 16,
-                  color: Color(0xFF1B4D3E),
+                  color: Color(0xFF165540),
                   fontWeight: FontWeight.w500,
                 ),
                 decoration: const InputDecoration(
                   hintText: 'Ketik Pesan..',
                   hintStyle: TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF7E8E85),
+                    color: Color(0xFF165540),
                     fontWeight: FontWeight.w400,
                   ),
                   border: InputBorder.none,
@@ -430,20 +393,18 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                 ),
               ),
             ),
-            if (_messageController.text.trim().isNotEmpty)
+
+            // Tombol di Sisi Kanan Input Bar
+            if (hasText)
               GestureDetector(
                 onTap: _sendMessage,
-                child: Container(
-                  width: 38,
-                  height: 38,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF2B7853),
-                  ),
-                  child: const Icon(
+                behavior: HitTestBehavior.opaque,
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  child: Icon(
                     Icons.send_rounded,
-                    color: Colors.white,
-                    size: 20,
+                    color: Color(0xFF165540), // Icon kirim pesawat kertas hijau Figma Chat Room-4.png
+                    size: 26,
                   ),
                 ),
               )
@@ -461,8 +422,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 6),
                   child: Icon(
                     Icons.mic_none_rounded,
-                    size: 24,
-                    color: Color(0xFF1B4D3E),
+                    size: 26,
+                    color: Color(0xFF165540),
                   ),
                 ),
               ),
@@ -479,75 +440,14 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 6),
                   child: Icon(
                     Icons.image_outlined,
-                    size: 24,
-                    color: Color(0xFF1B4D3E),
+                    size: 26,
+                    color: Color(0xFF165540),
                   ),
                 ),
               ),
             ],
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildEmojiPicker() {
-    return Container(
-      height: 240,
-      color: const Color(0xFFF1F6F0),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Emoji',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF1B4D3E),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _showEmojiPicker = false;
-                  });
-                },
-                child: const Icon(
-                  Icons.close,
-                  size: 20,
-                  color: Color(0xFF7E8E85),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 8,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-              ),
-              itemCount: _emojis.length,
-              itemBuilder: (context, index) {
-                final emoji = _emojis[index];
-                return GestureDetector(
-                  onTap: () => _onEmojiSelected(emoji),
-                  child: Center(
-                    child: Text(
-                      emoji,
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
       ),
     );
   }
