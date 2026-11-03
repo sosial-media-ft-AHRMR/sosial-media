@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sosial_media/mode_gelap_terang/theme_controller.dart';
 import 'package:sosial_media/pengaturan/pengaturan.dart';
 
 void main() {
@@ -42,16 +43,48 @@ void main() {
       expect(find.text('Simpan Perubahan'), findsOneWidget);
     });
 
-    testWidgets('PrivasiKeamananPage navigates to sub screens', (tester) async {
+    testWidgets('PrivasiKeamananPage navigates to sub screens and toggles ubah mode', (tester) async {
+      ThemeController.instance.setDarkMode(false);
+
       await tester.pumpWidget(const MaterialApp(home: PrivasiKeamananPage()));
       expect(find.text('Ubah kata sandi'), findsOneWidget);
       expect(find.text('Verifikasi dua langkah'), findsOneWidget);
       expect(find.text('Tempat anda login'), findsOneWidget);
+      expect(find.text('ubah mode'), findsOneWidget);
+
+      // Toggle ubah mode
+      await tester.tap(find.text('ubah mode'));
+      await tester.pumpAndSettle();
 
       // Tap Tempat anda login
       await tester.tap(find.text('Tempat anda login'));
       await tester.pumpAndSettle();
       expect(find.byType(TempatLoginPage), findsOneWidget);
+    });
+
+    testWidgets('UbahModePage renders and toggles themes', (tester) async {
+      ThemeController.instance.setDarkMode(false);
+
+      await tester.pumpWidget(const MaterialApp(home: UbahModePage()));
+      expect(find.text('Ubah Mode'), findsOneWidget);
+      expect(find.text('Mode Terang'), findsOneWidget);
+      expect(find.text('Mode Gelap'), findsOneWidget);
+      expect(find.text('Aktifkan Mode Gelap'), findsOneWidget);
+
+      // Tap Mode Gelap card
+      await tester.tap(find.text('Mode Gelap'));
+      await tester.pumpAndSettle();
+      expect(ThemeController.instance.isDarkMode, isTrue);
+
+      // Tap Mode Terang card
+      await tester.tap(find.text('Mode Terang'));
+      await tester.pumpAndSettle();
+      expect(ThemeController.instance.isDarkMode, isFalse);
+
+      // Tap switch toggle
+      await tester.tap(find.text('Aktifkan Mode Gelap'));
+      await tester.pumpAndSettle();
+      expect(ThemeController.instance.isDarkMode, isTrue);
     });
 
     testWidgets('VerifikasiKataSandiPage toggles obscure text', (tester) async {
@@ -65,4 +98,3 @@ void main() {
     });
   });
 }
-

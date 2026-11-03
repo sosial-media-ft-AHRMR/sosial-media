@@ -61,6 +61,32 @@ class QcumberColors {
     ],
   );
 
+  /// Gradien Resmi Mode Gelap (Dark Mode) dari Figma "mode gelap.png"
+  /// Diekstrak presisi: #81A66B (atas) -> #536744 (tengah) -> #25281E (bawah)
+  static const LinearGradient darkModeGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    stops: [0.0, 0.45, 1.0],
+    colors: [
+      Color(0xFF81A66B),
+      Color(0xFF536744),
+      Color(0xFF25281E),
+    ],
+  );
+
+  /// Gradien Resmi Mode Terang (Light Mode) dari Figma "mode terang.png"
+  /// Diekstrak presisi: #C1E4B0 (atas) -> #E9F5E2 (tengah) -> #FFFFFF (bawah)
+  static const LinearGradient lightModeGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    stops: [0.0, 0.45, 1.0],
+    colors: [
+      Color(0xFFC1E4B0),
+      Color(0xFFE9F5E2),
+      Color(0xFFFFFFFF),
+    ],
+  );
+
   /// Background Glow Radial di pojok kanan atas
   static const RadialGradient backgroundGlow = RadialGradient(
     center: Alignment(0.85, -0.15),
@@ -72,4 +98,3 @@ class QcumberColors {
     stops: [0.20, 0.90],
   );
 }
-

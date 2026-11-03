@@ -1,0 +1,10 @@
+{
+  "name": "qcumber-html-export",
+  "version": "1.0.0",
+  "description": "Export tampilan HTML Edit Profil untuk plugin Figma html.to.design di Edge",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve -p 3000",
+    "open": "start msedge index.html"
+  }
+}

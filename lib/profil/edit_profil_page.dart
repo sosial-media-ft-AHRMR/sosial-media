@@ -9,11 +9,15 @@ import '../theme/qcumber_colors.dart';
 /// - Tampilan nama pengguna dengan ikon pensil dan garis bawah hijau
 /// - Kolom edit Username dengan kotak rounded hijau sage dan ikon pensil
 /// - Kolom edit Biografi dengan kotak rounded hijau sage dan ikon pensil
+/// - Kolom edit Email dengan kotak rounded hijau sage dan ikon pensil
+/// - Kolom edit Alamat dengan kotak rounded hijau sage dan ikon pensil
 /// - Tombol "Simpan Perubahan" solid hijau tua (#165540)
 class EditProfilePage extends StatefulWidget {
   final String initialName;
   final String initialUsername;
   final String initialBio;
+  final String initialEmail;
+  final String initialAlamat;
   final String avatarUrl;
   final String coverUrl;
 
@@ -21,7 +25,9 @@ class EditProfilePage extends StatefulWidget {
     super.key,
     this.initialName = 'Alexumber',
     this.initialUsername = '@acumber',
-    this.initialBio = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    this.initialBio = 'hi',
+    this.initialEmail = 'alexumber@gmail.com',
+    this.initialAlamat = 'Jakarta, Indonesia',
     this.avatarUrl = 'assets/feed/alexumber_avatar.jpg',
     this.coverUrl = 'assets/feed/alexumber_cover.jpg',
   });
@@ -34,6 +40,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController _nameController;
   late TextEditingController _usernameController;
   late TextEditingController _bioController;
+  late TextEditingController _emailController;
+  late TextEditingController _alamatController;
 
   @override
   void initState() {
@@ -41,6 +49,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _nameController = TextEditingController(text: widget.initialName);
     _usernameController = TextEditingController(text: widget.initialUsername);
     _bioController = TextEditingController(text: widget.initialBio);
+    _emailController = TextEditingController(text: widget.initialEmail);
+    _alamatController = TextEditingController(text: widget.initialAlamat);
   }
 
   @override
@@ -48,6 +58,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _nameController.dispose();
     _usernameController.dispose();
     _bioController.dispose();
+    _emailController.dispose();
+    _alamatController.dispose();
     super.dispose();
   }
 
@@ -57,6 +69,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       'username': _nameController.text.trim(),
       'handle': _usernameController.text.trim(),
       'bio': _bioController.text.trim(),
+      'email': _emailController.text.trim(),
+      'alamat': _alamatController.text.trim(),
     };
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -68,6 +82,73 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
 
     Navigator.pop(context, updatedData);
+  }
+
+  Widget _buildFormField({
+    required String label,
+    required TextEditingController controller,
+    int maxLines = 1,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            fontSize: 16.5,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF165540),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          decoration: BoxDecoration(
+            color: const Color(0xFFE5EFE2),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: const Color(0xFF165540),
+              width: 1.2,
+            ),
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: maxLines > 1 ? 10 : 0,
+          ),
+          height: maxLines > 1 ? null : 48,
+          child: Row(
+            crossAxisAlignment: maxLines > 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  maxLines: maxLines,
+                  keyboardType: keyboardType,
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF165540),
+                  ),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    isDense: true,
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: maxLines > 1 ? 2.0 : 0),
+                child: const Icon(
+                  Icons.edit_outlined,
+                  size: 19,
+                  color: Color(0xFF165540),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -83,7 +164,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
-              // 1. Cover Photo Banner & Avatar Tengah (Sesuai Figma Edit Profil.png)
+              // 1. Cover Photo Banner & Avatar Tengah
               SizedBox(
                 height: 250,
                 child: Stack(
@@ -105,7 +186,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                     ),
 
-                    // Gradien lembut di atas cover
+                    // Gradien di atas cover
                     Positioned(
                       top: 0,
                       left: 0,
@@ -177,7 +258,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                     ),
 
-                    // Kontainer Lengkung Putih Dimulai di Y = 175
+                    // Kontainer Putih
                     Positioned(
                       top: 175,
                       left: 0,
@@ -193,7 +274,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                     ),
 
-                    // Avatar Bulat Tengah Berborder Putih Tebal dengan Tombol Kamera
+                    // Avatar Bulat Tengah dengan Tombol Kamera
                     Positioned(
                       top: 125,
                       child: Stack(
@@ -229,7 +310,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ),
                           ),
 
-                          // Tombol Edit Avatar Kamera Kecil di Kanan Bawah
+                          // Tombol Edit Avatar Kamera
                           Positioned(
                             right: 0,
                             bottom: 0,
@@ -286,7 +367,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   children: [
                     const SizedBox(height: 8),
 
-                    // Nama Pengguna + Ikon Pensil + Garis Bawah Hijau
+                    // Nama Pengguna + Ikon Pensil
                     IntrinsicWidth(
                       child: Column(
                         children: [
@@ -323,117 +404,39 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                     const SizedBox(height: 28),
 
-                    // Kolom Edit 1: Username
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Username',
-                        style: GoogleFonts.poppins(
-                          fontSize: 16.5,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF165540),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE5EFE2),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: const Color(0xFF165540),
-                          width: 1.2,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: _usernameController,
-                              style: GoogleFonts.poppins(
-                                fontSize: 14.5,
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF165540),
-                              ),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                              ),
-                            ),
-                          ),
-                          const Icon(
-                            Icons.edit_outlined,
-                            size: 19,
-                            color: Color(0xFF165540),
-                          ),
-                        ],
-                      ),
+                    // Kolom 1: Username
+                    _buildFormField(
+                      label: 'Username',
+                      controller: _usernameController,
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 18),
 
-                    // Kolom Edit 2: Biografi
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Biografi',
-                        style: GoogleFonts.poppins(
-                          fontSize: 16.5,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF165540),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE5EFE2),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: const Color(0xFF165540),
-                          width: 1.2,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: _bioController,
-                              maxLines: 3,
-                              style: GoogleFonts.poppins(
-                                fontSize: 13.5,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xFF165540),
-                                height: 1.4,
-                              ),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                isDense: true,
-                                contentPadding: EdgeInsets.zero,
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 2.0),
-                            child: Icon(
-                              Icons.edit_outlined,
-                              size: 19,
-                              color: Color(0xFF165540),
-                            ),
-                          ),
-                        ],
-                      ),
+                    // Kolom 2: Biografi
+                    _buildFormField(
+                      label: 'Biografi',
+                      controller: _bioController,
+                      maxLines: 2,
                     ),
 
-                    const SizedBox(height: 36),
+                    const SizedBox(height: 18),
+
+                    // Kolom 3: Email (BARU)
+                    _buildFormField(
+                      label: 'Email',
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+
+                    const SizedBox(height: 18),
+
+                    // Kolom 4: Alamat (BARU)
+                    _buildFormField(
+                      label: 'Alamat',
+                      controller: _alamatController,
+                    ),
+
+                    const SizedBox(height: 32),
 
                     // Tombol Simpan Perubahan
                     SizedBox(
@@ -463,7 +466,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                     ),
 
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 80),
                   ],
                 ),
               ),
@@ -474,4 +477,3 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 }
-
