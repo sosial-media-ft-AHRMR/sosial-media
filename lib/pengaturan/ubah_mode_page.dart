@@ -118,57 +118,64 @@ class _UbahModePageState extends State<UbahModePage> {
                         const SizedBox(height: 28),
 
                         // Baris Toggle Cepat
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 18.0,
-                            vertical: 14.0,
-                          ),
-                          decoration: BoxDecoration(
-                            color: _themeController.cardBackgroundColor,
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () => _themeController.toggleTheme(),
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: isDark
-                                  ? const Color(0xFF536744)
-                                  : const Color(0xFFD0DFC9),
-                              width: 1.2,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
-                                blurRadius: 10,
-                                offset: const Offset(0, 3),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 18.0,
+                                vertical: 14.0,
                               ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    isDark
-                                        ? Icons.nightlight_round
-                                        : Icons.wb_sunny_outlined,
-                                    color: _themeController.primaryTextColor,
-                                    size: 22,
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Text(
-                                    'Aktifkan Mode Gelap',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: _themeController.primaryTextColor,
-                                    ),
+                              decoration: BoxDecoration(
+                                color: _themeController.cardBackgroundColor,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: isDark
+                                      ? const Color(0xFF536744)
+                                      : const Color(0xFFD0DFC9),
+                                  width: 1.2,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 3),
                                   ),
                                 ],
                               ),
-                              _buildCustomSwitch(
-                                value: isDark,
-                                onChanged: (val) =>
-                                    _themeController.setDarkMode(val),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        isDark
+                                            ? Icons.nightlight_round
+                                            : Icons.wb_sunny_outlined,
+                                        color: _themeController.primaryTextColor,
+                                        size: 22,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text(
+                                        'Aktifkan Mode Gelap',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: _themeController.primaryTextColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  _buildCustomSwitch(
+                                    value: isDark,
+                                    onChanged: (val) =>
+                                        _themeController.setDarkMode(val),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
 

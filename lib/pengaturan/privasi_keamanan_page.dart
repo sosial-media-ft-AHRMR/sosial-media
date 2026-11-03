@@ -6,7 +6,6 @@ import '../mode_gelap_terang/theme_controller.dart';
 import '../theme/qcumber_colors.dart';
 import '../ubah_sandi/ubah_sandi_page.dart';
 import 'tempat_login_page.dart';
-import 'ubah_mode_page.dart';
 
 /// Halaman Privasi dan Keamanan
 /// Konversi presisi 99% dari Desain Figma "Privasi dan Keamanan.png" (402 x 874)
@@ -136,14 +135,6 @@ class PrivasiKeamananPage extends StatelessWidget {
                           onToggle: (val) {
                             themeController.setDarkMode(val);
                           },
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const UbahModePage(),
-                              ),
-                            );
-                          },
                         ),
                         _buildDivider(themeController.dividerColor),
                       ],
@@ -202,12 +193,11 @@ class PrivasiKeamananPage extends StatelessWidget {
     required bool isDark,
     required Color textColor,
     required ValueChanged<bool> onToggle,
-    required VoidCallback onTap,
   }) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTap,
+        onTap: () => onToggle(!isDark),
         splashColor: QcumberColors.cucumberGreen.withValues(alpha: 0.15),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 14.0),
