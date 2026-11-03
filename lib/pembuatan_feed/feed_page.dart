@@ -10,6 +10,7 @@ import '../tampilan_utama/feed_header.dart';
 import '../pembuatan_feed/post_detail_page.dart';
 import '../tampilan_utama/slice_story_bar.dart';
 import '../tampilan_utama/story_viewer_page.dart';
+import '../screens/mrshadow_story_screen.dart';
 
 /// Halaman Feed Utama Qcumber
 /// Header banner di bagian atas dibuat TETAP (FIXED) dan tidak ikut ter-scroll
@@ -96,13 +97,22 @@ class FeedPageState extends State<FeedPage> {
                           stories: stories,
                           onAddSlice: showAddSliceDialog,
                           onStoryTap: (story) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    StoryViewerPage(story: story),
-                              ),
-                            );
+                            if (story.username.toLowerCase().contains('mrshadow') || story.id == 'slice_2') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MrShadowStoryScreen(),
+                                ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      StoryViewerPage(story: story),
+                                ),
+                              );
+                            }
                           },
                         );
                       },

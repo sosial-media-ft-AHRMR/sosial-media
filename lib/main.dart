@@ -18,6 +18,8 @@ import 'screens/incoming_call_audio_screen.dart';
 import 'screens/incoming_call_video_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/splash_screen.dart';
+import 'screens/mrshadow_story_screen.dart';
+import 'screens/halaman_efek_screen.dart';
 import 'ubah_sandi/ubah_sandi_page.dart';
 
 void main() {
@@ -78,6 +80,8 @@ class QcumberApp extends StatelessWidget {
 
             // Beranda Utama & Feed Media Sosial
             '/feed': (context) => const MainScaffold(),
+            '/mrshadow_story': (context) => const MrShadowStoryScreen(),
+            '/halaman_efek': (context) => const HalamanEfekScreen(),
 
             // Komunikasi, Pesan & Panggilan
             '/chat_list': (context) => const ChatListScreen(),

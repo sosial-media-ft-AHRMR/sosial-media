@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../theme/qcumber_colors.dart';
 import 'membuat_postingan.dart';
 import 'membuat_story.dart';
+import '../screens/halaman_efek_screen.dart';
 
 /// Halaman Pemilih Media "New Slice" Sesuai 100% dengan Figma New Story.png & New Post-1.png
 /// Fitur:
@@ -54,28 +55,16 @@ class _NewSlicePageState extends State<NewSlicePage> {
 
   /// Membuka kamera perangkat secara langsung
   Future<void> _openCamera() async {
-    try {
-      final XFile? photo = await _picker.pickImage(
-        source: ImageSource.camera,
-        maxWidth: 1920,
-        maxHeight: 1920,
-        imageQuality: 88,
-      );
-      if (photo != null) {
-        setState(() {
-          _galleryPhotos.insert(0, photo.path);
-          _selectedPhotoIndex = 0;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Tidak dapat membuka kamera: $e'),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-      }
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HalamanEfekScreen(),
+      ),
+    );
+    if (result != null && mounted) {
+      setState(() {
+        _selectedPhotoIndex = 0;
+      });
     }
   }
 

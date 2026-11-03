@@ -79,6 +79,14 @@ class _ChatListScreenState extends State<ChatListScreen> {
       isAktif: false,
       avatarAsset: 'assets/images/Peter PP.jpg',
     ),
+    ChatItemData(
+      id: 'rangga',
+      name: 'rangga',
+      lastMessage: 'Yuk ngopi bareng! ☕',
+      time: '09.30',
+      isAktif: true,
+      avatarAsset: 'assets/images/Rangga PP.jpg',
+    ),
   ];
 
   List<ChatItemData> _filteredChats = [];
